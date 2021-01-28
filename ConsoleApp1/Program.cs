@@ -21,8 +21,15 @@ namespace ConsoleApp1
                 {
                     throw new Exception("Can not find folder scan.");
                 }
-                Console.WriteLine("Folder scan :" + conf.folder_scan);
+                ScanFolder(conf.folder_scan);
+                /*Console.WriteLine("Folder scan :" + conf.folder_scan);
                 DirectoryInfo d = new DirectoryInfo(conf.folder_scan);
+
+                String[] subfolder = Directory.GetDirectories(d.FullName);
+                foreach(var item in subfolder)
+                {
+                    Console.WriteLine(item);
+                }
 
 
                 FileInfo[] Files = d.GetFiles("*.docx"); //Getting Text files
@@ -49,7 +56,8 @@ namespace ConsoleApp1
 
                 Console.WriteLine("Done");
                 Console.WriteLine("Total file : " + total_file);
-                Console.WriteLine("Fix file : " + fix_file_number);
+                Console.WriteLine("Fix file : " + fix_file_number);*/
+                Console.WriteLine("Done");
                 Console.ReadLine();
             }
             catch
@@ -60,6 +68,50 @@ namespace ConsoleApp1
             }
             Console.ReadLine();
 
+        }
+
+        public static void ScanFolder(string fullPath)
+        {
+            Console.WriteLine("=================");
+            Console.WriteLine("Folder : " + fullPath);
+            DirectoryInfo d = new DirectoryInfo(fullPath);
+            FileInfo[] Files = d.GetFiles("*.docx"); //Getting Text files
+
+            int total_file = Files.Length;
+            int fix_file_number = 0;
+
+            foreach (FileInfo file in Files)
+            {
+                try
+                {
+                    Console.WriteLine(file.Name);
+                    //RemoveWordInDocx(file, "quảng cáo");
+                    AddHeaderFooter(file);
+                    fix_file_number += 1;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("error in : " + file.Name);
+                    Console.WriteLine("error: " + ex.Message);
+                    continue;
+                }
+            }
+
+            Console.WriteLine("Total file : " + total_file);
+            Console.WriteLine("Fix file : " + fix_file_number);
+
+            // đệ quy
+            String[] subfolder = Directory.GetDirectories(fullPath);
+            foreach(var item in subfolder)
+            {
+                try { 
+                    ScanFolder(item);
+                }
+                catch
+                {
+                    continue;
+                }
+            }
         }
 
         public static void ReadDocxWithSpire(FileInfo file)
