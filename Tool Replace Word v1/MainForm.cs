@@ -8,14 +8,15 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Tool_Replace_Word_v1
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             LoadDefaultText();
@@ -58,11 +59,12 @@ namespace Tool_Replace_Word_v1
                     txt_path_result.Text = fbd.SelectedPath;
                 }
             }
+
         }
 
-        int count = 0;
+        string result = "";
 
-        private void bt_submit_Click(object sender, EventArgs e)
+        private void ManageData()
         {
             try
             {
@@ -90,7 +92,6 @@ namespace Tool_Replace_Word_v1
                         {
                             while (reader.Read())
                             {
-                                count++;
                                 //Console.WriteLine(reader.GetString(0));
                                 EditDetailModel ed = new EditDetailModel();
                                 ed.MaCode = reader.GetString(0) == null ? "" : reader.GetString(0);
@@ -124,15 +125,27 @@ namespace Tool_Replace_Word_v1
 
                 //System.Diagnostics.Process.Start("Replace.docx");
 
-                SetResult("Success");
+                //bgW_ManageData.ReportProgress(0);
+
+                result = "Success";
 
                 UpdateDefaultText();
+
             }
             catch (Exception ex)
             {
-                SetResult(ex.Message);
+                //SetResult(ex.Message);
+                result = ex.Message;
                 return;
             }
+        }
+
+        private void bt_submit_Click(object sender, EventArgs e)
+        {
+            bt_submit.Enabled = false;
+            SetResult("Loading . . . ");
+            bgW_ManageData.RunWorkerAsync();
+
         }
 
         private void SetResult(string ms)
@@ -170,6 +183,23 @@ namespace Tool_Replace_Word_v1
             conf.file_name = txt_exportFileName.Text;
 
             ConfigClass.UpdateConfig(conf);
+        }
+
+        private void ChangeText(object sender, EventArgs e)
+        {
+            lb_result.Text = "Result : ";
+        }
+
+        private void bgW_ManageData_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ManageData();
+
+        }
+
+        private void bgW_ManageData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            bt_submit.Enabled = true;
+            SetResult(result);
         }
     }
 }

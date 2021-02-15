@@ -1,6 +1,6 @@
 ﻿namespace Tool_Replace_Word_v1
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -36,13 +36,14 @@
             this.bt_browser_result = new System.Windows.Forms.Button();
             this.bt_browse_fileEdit = new System.Windows.Forms.Button();
             this.bt_browse_hosomau = new System.Windows.Forms.Button();
+            this.txt_exportFileName = new System.Windows.Forms.TextBox();
             this.txt_path_result = new System.Windows.Forms.TextBox();
             this.txt_path_fileEdit = new System.Windows.Forms.TextBox();
             this.txt_path_hosomau = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.bt_submit = new System.Windows.Forms.Button();
             this.lb_result = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txt_exportFileName = new System.Windows.Forms.TextBox();
+            this.bgW_ManageData = new System.ComponentModel.BackgroundWorker();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -122,12 +123,21 @@
             this.bt_browse_hosomau.UseVisualStyleBackColor = true;
             this.bt_browse_hosomau.Click += new System.EventHandler(this.bt_browse_hosomauOnClick);
             // 
+            // txt_exportFileName
+            // 
+            this.txt_exportFileName.Location = new System.Drawing.Point(102, 134);
+            this.txt_exportFileName.Name = "txt_exportFileName";
+            this.txt_exportFileName.Size = new System.Drawing.Size(314, 20);
+            this.txt_exportFileName.TabIndex = 5;
+            this.txt_exportFileName.TextChanged += new System.EventHandler(this.ChangeText);
+            // 
             // txt_path_result
             // 
             this.txt_path_result.Location = new System.Drawing.Point(102, 97);
             this.txt_path_result.Name = "txt_path_result";
             this.txt_path_result.Size = new System.Drawing.Size(314, 20);
             this.txt_path_result.TabIndex = 5;
+            this.txt_path_result.TextChanged += new System.EventHandler(this.ChangeText);
             // 
             // txt_path_fileEdit
             // 
@@ -135,6 +145,7 @@
             this.txt_path_fileEdit.Name = "txt_path_fileEdit";
             this.txt_path_fileEdit.Size = new System.Drawing.Size(314, 20);
             this.txt_path_fileEdit.TabIndex = 4;
+            this.txt_path_fileEdit.TextChanged += new System.EventHandler(this.ChangeText);
             // 
             // txt_path_hosomau
             // 
@@ -142,6 +153,16 @@
             this.txt_path_hosomau.Name = "txt_path_hosomau";
             this.txt_path_hosomau.Size = new System.Drawing.Size(314, 20);
             this.txt_path_hosomau.TabIndex = 3;
+            this.txt_path_hosomau.TextChanged += new System.EventHandler(this.ChangeText);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(38, 137);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(52, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "File name";
             // 
             // bt_submit
             // 
@@ -162,32 +183,21 @@
             this.lb_result.TabIndex = 5;
             this.lb_result.Text = "Result : ";
             // 
-            // label4
+            // bgW_ManageData
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(38, 137);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(52, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "File name";
+            this.bgW_ManageData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgW_ManageData_DoWork);
+            this.bgW_ManageData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgW_ManageData_RunWorkerCompleted);
             // 
-            // txt_exportFileName
-            // 
-            this.txt_exportFileName.Location = new System.Drawing.Point(102, 134);
-            this.txt_exportFileName.Name = "txt_exportFileName";
-            this.txt_exportFileName.Size = new System.Drawing.Size(314, 20);
-            this.txt_exportFileName.TabIndex = 5;
-            // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(637, 257);
+            this.ClientSize = new System.Drawing.Size(625, 257);
             this.Controls.Add(this.lb_result);
             this.Controls.Add(this.bt_submit);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Tool Replace Word";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -212,6 +222,7 @@
         private System.Windows.Forms.Label lb_result;
         private System.Windows.Forms.TextBox txt_exportFileName;
         private System.Windows.Forms.Label label4;
+        private System.ComponentModel.BackgroundWorker bgW_ManageData;
     }
 }
 
